@@ -1,0 +1,76 @@
+# documentacao.txt
+
+POST /customers : Cria um novo cliente
+{
+  "name": "João Silva",
+  "cpf": "12345678901"
+}
+- CPF deve conter 11 dígitos numéricos válidos e únicos
+- Nome deve ter ao menos 2 caracteres
+
+GET /customers : Lista todos os clientes
+
+GET /customers/:id : Retorna um cliente específico
+
+PUT /customers/:id : Atualiza dados de um cliente
+{
+  "name": "Novo Nome",
+  "cpf": "09876543210"
+}
+- Pode enviar apenas um dos campos
+- Validações são reaplicadas
+
+DELETE /customers/:id : Remove um cliente
+
+
+POST /dishes : Cria um novo prato
+{
+  "name": "Spaghetti",
+  "price": 29.90
+}
+- Nome deve conter apenas letras e ter entre 3 e 50 caracteres
+- Preço deve ser maior que 0
+
+GET /dishes : Lista todos os pratos
+
+GET /dishes/:id : Retorna um prato específico
+
+PUT /dishes/:id : Atualiza dados de um prato
+{
+  "name": "Nova Massa",
+  "price": 35.00
+}
+
+DELETE /dishes/:id : Remove um prato
+
+
+POST /orders : Cria um novo pedido
+{
+  "customerId": 1,
+  "dishId": 2,
+  "quantity": 3
+}
+- O cliente e prato devem existir
+- Quantidade deve ser >= 1
+
+GET /orders : Lista todos os pedidos
+
+GET /orders/:id : Retorna um pedido específico
+
+PUT /orders/:id : Atualiza um pedido
+{
+  "quantity": 5
+}
+
+DELETE /orders/:id : Remove um pedido
+
+
+# Relatórios
+
+GET /reports/top-dishes : Lista todos os pratos ordenados por quantidade de pedidos (decrescente)
+
+GET /reports/top-customers : Lista os 5 clientes que mais fizeram pedidos
+- Retorna: nome e total de pedidos
+
+GET /reports/top-spenders : Lista os 5 clientes que mais gastaram
+- Retorna: nome e total gasto (quantidade × preço)
