@@ -9,18 +9,18 @@ export class CustomerService {
     return await Customer.findAll();
   }
 
-  async getCustomerById(id: number) {
+  async getCustomerById(id: string) {
     return await Customer.findByPk(id);
   }
 
-  async updateCustomer(id: number, updates: Partial<Customer>) {
+  async updateCustomer(id: string, updates: Partial<Customer>) {
     const customer = await Customer.findByPk(id);
     if (!customer) return null;
     
     return await customer.update(updates);
   }
 
-  async deleteCustomer(id: number) {
+  async deleteCustomer(id: string) {
     const customer = await Customer.findByPk(id);
     if (!customer) return null;
     

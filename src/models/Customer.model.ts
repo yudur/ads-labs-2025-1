@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/database';
+import { v4 as uuid } from 'uuid';
 
 export class Customer extends Model {
   public id!: number;
@@ -12,8 +13,8 @@ export class Customer extends Model {
 Customer.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: () => uuid(),
       primaryKey: true
     },
     cpf: {

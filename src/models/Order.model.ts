@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/database';
 import { Customer } from './Customer.model';
 import { Dish } from './Dish.model';
+import { v4 as uuid } from 'uuid';
 
 export class Order extends Model {
   public id!: number;
@@ -15,12 +16,12 @@ export class Order extends Model {
 Order.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: () => uuid(),
       primaryKey: true
     },
     customerId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: Customer,
@@ -28,7 +29,7 @@ Order.init(
       }
     },
     dishId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: Dish,

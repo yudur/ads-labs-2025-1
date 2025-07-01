@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/server.ts"
+    "dev": "nodemon ./src/server.ts",
+    "db:drop": "sequelize-cli db:drop",
+    "db:create": "sequelize-cli db:drop"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.10",
     "nodemon": "^3.1.10",
+    "sequelize-cli": "^6.6.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

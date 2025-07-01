@@ -7,6 +7,9 @@ export class CustomerController {
   async create(req: Request, res: Response) {
     try {
       const { cpf, name } = req.body;
+      
+      
+
       const customer = await customerService.createCustomer(cpf, name);
       res.status(201).json(customer);
     } catch (error: any) {
@@ -20,7 +23,7 @@ export class CustomerController {
   }
 
   async getById(req: Request, res: Response) {
-    const customer = await customerService.getCustomerById(parseInt(req.params.id));
+    const customer = await customerService.getCustomerById(req.params.id);
     if (customer) {
       res.json(customer);
     } else {
@@ -30,7 +33,7 @@ export class CustomerController {
 
   async update(req: Request, res: Response) {
     const customer = await customerService.updateCustomer(
-      parseInt(req.params.id),
+      req.params.id,
       req.body
     );
     if (customer) {
@@ -41,7 +44,7 @@ export class CustomerController {
   }
 
   async delete(req: Request, res: Response) {
-    const result = await customerService.deleteCustomer(parseInt(req.params.id));
+    const result = await customerService.deleteCustomer(req.params.id);
     if (result) {
       res.json({ message: 'Customer deleted successfully' });
     } else {
