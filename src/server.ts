@@ -1,12 +1,20 @@
-import express from 'express';
+import app from './app';
 import { config } from './config/env';
+import { sequelize } from './config/database';
 
-const app = express();
+async function startServer() {
+  try {
+    await sequelize.authenticate();
+    console.log('connect db');
 
-app.get("/", (req: any, res: any) => {
-  return res.json({ message: "hello word" });
-});
+    await sequelize.sync();
 
-app.listen(config.port, () => {
+    app.listen(config.port, () => {
       console.log(`Server running on port ${config.port}`); 
     });
+  } catch (error) {
+    console.error('Error starting server:', error);
+  }
+}
+
+startServer()
