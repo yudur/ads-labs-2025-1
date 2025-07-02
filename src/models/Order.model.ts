@@ -5,9 +5,9 @@ import { Dish } from './Dish.model';
 import { v4 as uuid } from 'uuid';
 
 export class Order extends Model {
-  public id!: number;
-  public customerId!: number;
-  public dishId!: number;
+  public id!: string;
+  public customerId!: string;
+  public dishId!: string;
   public quantity!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;

@@ -1,7 +1,7 @@
 import { Order } from '../models/Order.model';
 
 export class OrderService {
-  async createOrder(customerId: number, dishId: number, quantity: number) {
+  async createOrder(customerId: string, dishId: string, quantity: number) {
     return await Order.create({ customerId, dishId, quantity });
   }
 

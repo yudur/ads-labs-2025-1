@@ -3,7 +3,7 @@ import { sequelize } from '../config/database';
 import { v4 as uuid } from 'uuid';
 
 export class Dish extends Model {
-  public id!: number;
+  public id!: string;
   public name!: string;
   public price!: number;
   public readonly createdAt!: Date;

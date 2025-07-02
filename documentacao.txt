@@ -63,14 +63,3 @@ PUT /orders/:id : Atualiza um pedido
 }
 
 DELETE /orders/:id : Remove um pedido
-
-
-# Relatórios
-
-GET /reports/top-dishes : Lista todos os pratos ordenados por quantidade de pedidos (decrescente)
-
-GET /reports/top-customers : Lista os 5 clientes que mais fizeram pedidos
-- Retorna: nome e total de pedidos
-
-GET /reports/top-spenders : Lista os 5 clientes que mais gastaram
-- Retorna: nome e total gasto (quantidade × preço)

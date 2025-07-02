@@ -3,7 +3,7 @@ import { sequelize } from '../config/database';
 import { v4 as uuid } from 'uuid';
 
 export class Customer extends Model {
-  public id!: number;
+  public id!: string;
   public cpf!: string;
   public name!: string;
   public readonly createdAt!: Date;
