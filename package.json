@@ -4,8 +4,6 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/server.ts",
-    "db:drop": "sequelize-cli db:drop",
-    "db:create": "sequelize-cli db:drop",
     "seed:mock": "ts-node ./src/seeds/mock.ts"
   },
   "keywords": [],

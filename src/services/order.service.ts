@@ -6,11 +6,15 @@ export class OrderService {
   }
 
   async getAllOrders() {
-    return await Order.findAll({ include: ['Customer', 'Dish'] });
+    return await Order.findAll({
+      include: ['customer', 'dish']
+    });
   }
 
   async getOrderById(id: string) {
-    return await Order.findByPk(id, { include: ['Customer', 'Dish'] });
+    return await Order.findByPk(id, {
+      include: ['customer', 'dish']
+    });
   }
 
   async updateOrder(id: string, updates: Partial<Order>) {

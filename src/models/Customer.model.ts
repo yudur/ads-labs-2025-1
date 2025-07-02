@@ -4,39 +4,31 @@ import { v4 as uuid } from 'uuid';
 
 export class Customer extends Model {
   public id!: string;
-  public cpf!: string;
   public name!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public cpf!: string;
 }
 
-Customer.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: () => uuid(),
-      primaryKey: true
-    },
-    cpf: {
-      type: DataTypes.STRING(11),
-      allowNull: false,
-      unique: true,
-      validate: {
-        is: /^\d{11}$/,
-        len: [11, 11]
-      }
-    },
-    name: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    }
+Customer.init({
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: () => uuid(),
+    primaryKey: true
   },
-  {
-    sequelize,
-    tableName: 'customers',
-    timestamps: true
+  name: {
+    type: DataTypes.STRING(100),
+    allowNull: false
+  },
+  cpf: {
+    type: DataTypes.STRING(11),
+    unique: true,
+    allowNull: false,
+    validate: {
+      is: /^\d{11}$/,
+      len: [11, 11]
+    }
   }
-);
+}, {
+  sequelize,
+  tableName: 'customers',
+  timestamps: true
+});

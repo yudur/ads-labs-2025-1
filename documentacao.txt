@@ -1,5 +1,3 @@
-# documentacao.txt
-
 POST /customers : Cria um novo cliente
 {
   "name": "João Silva",
@@ -63,3 +61,13 @@ PUT /orders/:id : Atualiza um pedido
 }
 
 DELETE /orders/:id : Remove um pedido
+
+
+GET /report/dishes-by-orders : Lista todos os pratos ordenados pela quantidade de pedidos
+- Retorna os pratos mais pedidos em ordem decrescente
+
+GET /report/top-customers-orders : Lista os 5 clientes que mais fizeram pedidos
+- Retorna nome e total de pedidos de cada cliente
+
+GET /report/top-customers-spending : Lista os 5 clientes que mais gastaram
+- Retorna nome e valor total gasto por cada cliente
