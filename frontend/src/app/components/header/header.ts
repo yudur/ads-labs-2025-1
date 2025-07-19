@@ -16,8 +16,7 @@ import {
     CommonModule,
     LucideAngularModule
   ],
-  templateUrl: './header.html',
-  styleUrl: './header.scss'
+  templateUrl: './header.html'
 })
 export class Header {
   constructor(private router: Router) {}
@@ -26,7 +25,7 @@ export class Header {
   readonly Users = Users;
   readonly Utensils = Utensils;
   readonly ClipboardList = ClipboardList;
-  readonly ChartNoAxesColumnIncreasing = ChartNoAxesColumnIncreasing
+  readonly ChartNoAxesColumnIncreasing = ChartNoAxesColumnIncreasing;
 
   navItems = [
     {text: 'Home', icon: Home, link: '/'},

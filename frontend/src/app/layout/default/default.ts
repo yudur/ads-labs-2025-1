@@ -6,7 +6,6 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-default',
   imports: [Header, RouterOutlet],
   templateUrl: './default.html',
-  styleUrl: './default.scss'
 })
 export class Default {
 
