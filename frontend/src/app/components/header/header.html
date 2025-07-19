@@ -1,0 +1,20 @@
+<header class="bg-indigo-700 text-white shadow-lg p-4">
+    <div class="container mx-auto flex flex-wrap justify-between items-center">
+        <h1 class="text-2xl font-bold text-white">
+            <span class="text-indigo-200">Gerenciador</span> de Restaurante
+        </h1>
+        <nav>
+            <ul class="flex flex-wrap space-x-4 md:space-x-8">
+                <li *ngFor="let navItem of navItems">
+                    <button 
+                        (click)="navigate(navItem.link)"
+                        class="flex items-center px-3 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-indigo-600"
+                    >
+                        <lucide-angular [img]="navItem.icon" class="w-5 h-5 mr-2"></lucide-angular>
+                        {{navItem.text}}
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
