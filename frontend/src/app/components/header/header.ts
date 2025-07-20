@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { 
@@ -13,7 +12,6 @@ import {
 @Component({
   selector: 'app-header',
   imports: [
-    CommonModule,
     LucideAngularModule
   ],
   templateUrl: './header.html'

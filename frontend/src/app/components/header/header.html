@@ -5,15 +5,17 @@
         </h1>
         <nav>
             <ul class="flex flex-wrap space-x-4 md:space-x-8">
-                <li *ngFor="let navItem of navItems">
-                    <button 
-                        (click)="navigate(navItem.link)"
-                        class="flex items-center px-3 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-indigo-600"
-                    >
-                        <lucide-angular [img]="navItem.icon" class="w-5 h-5 mr-2"></lucide-angular>
-                        {{navItem.text}}
-                    </button>
-                </li>
+                @for (navItem of navItems; track navItem) {
+                    <li>
+                        <button 
+                            (click)="navigate(navItem.link)"
+                            class="flex items-center px-3 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-indigo-600"
+                        >
+                            <lucide-angular [img]="navItem.icon" class="w-5 h-5 mr-2"></lucide-angular>
+                            {{navItem.text}}
+                        </button>
+                    </li>
+                }
             </ul>
         </nav>
     </div>

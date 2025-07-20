@@ -1,33 +1,51 @@
 import { Component, signal } from '@angular/core';
 import { CustomerDTO } from '../../core/DTOs/customer.dto';
 import { CustomerService } from '../../core/services/api/customer.service';
-import { CommonModule } from '@angular/common';
 import { AddButton } from '../../components/buttons/add-button/add-button';
-import { CustomerForm } from './components/customer-form/customer-form';
 
-import { LucideAngularModule, FilePenLine, Trash } from 'lucide-angular';
+import { GenericForm } from '../../components/generic-form/generic-form';
+import { GenericTable } from '../../components/generic-table/generic-table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-customers',
-  imports: [CommonModule, AddButton, CustomerForm, LucideAngularModule],
+  imports: [
+    AddButton,
+    GenericForm,
+    GenericTable
+],
   templateUrl: './customers.html'
 })
 export class Customers {
-  readonly FilePenLine = FilePenLine;
-  readonly Trash = Trash;
-
   customers = signal<CustomerDTO[]>([]);
-  editingCustomer = signal<CustomerDTO | null>(null);
+  editing = signal(false);
+  selectedCustomer = signal<CustomerDTO | null>(null);
 
-  constructor (private service: CustomerService) {
+
+  form!: FormGroup;
+
+  constructor(
+    // private customerService: CustomerService,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
     this.loadCustomers();
+    this.buildForm();
+  }
+
+  buildForm(customer?: CustomerDTO) {
+    this.form = this.fb.group({
+      name: [customer?.name || '', [Validators.required, Validators.minLength(2)]],
+      cpf: [customer?.cpf || '', [Validators.required, Validators.pattern(/^\d{11}$/)]]
+    });
+
+    this.selectedCustomer.set(customer ?? null);
+    this.editing.set(true);
   }
 
   loadCustomers() {
-    // this.service.getAll().subscribe(data => {
-    //   this.customers.set(data);
-    //   this.cancelEdit();
-    // });
+    // this.customerService.findAll().subscribe(res => this.customers.set(res));
     this.customers.set([
       {
         "id": "8d4bd2bf-df58-4d73-a6cb-b119bfaad336",
@@ -47,17 +65,41 @@ export class Customers {
     ])
   }
 
-  edit(customer: CustomerDTO) {
-    this.editingCustomer.set({ ...customer });
+  onEdit(customer: CustomerDTO) {
+    this.buildForm(customer);
   }
 
-  remove(customer: CustomerDTO) {
-    if (confirm(`Deseja remover ${customer.name}?`)) {
-      // this.service.delete(customer.id).subscribe(() => this.loadCustomers());
-    }
+  onDelete(customer: CustomerDTO) {
+    // this.customerService.delete(customer.id).subscribe(() => this.loadCustomers());
+    console.log('apagar')
   }
 
   cancelEdit() {
-    this.editingCustomer.set(null);
+    this.editing.set(false);
+    this.form.reset();
+    this.selectedCustomer.set(null);
+  }
+
+  onSubmit() {
+    if (this.form.invalid) return;
+
+    const dto = this.form.value;
+
+    if (!this.selectedCustomer()?.id) {
+      // this.customerService.create(dto).subscribe(() => {
+        // this.cancelEdit();
+        // this.loadCustomers();
+        
+      // })
+      console.log('criado')
+      this.cancelEdit();
+      this.loadCustomers();
+    } else {
+      // this.customerService.update(this.selectedCustomer()!.id, dto).subscribe(() => {
+        // this.cancelEdit();
+        // this.loadCustomers();
+      // });
+      console.log('atualizado')
+    }
   }
 }

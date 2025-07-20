@@ -1,0 +1,31 @@
+<div class="bg-white p-6 rounded-lg shadow-md border border-indigo-200">
+  <table class="min-w-full bg-white rounded-lg">
+    <thead>
+      <tr class="bg-indigo-100 text-indigo-800 uppercase text-sm leading-normal">
+        @for (col of columns; track col) {
+          <th class="py-3 px-6 text-left">{{ col.label }}</th>
+        }
+        <th class="py-3 px-6 text-center">Ações</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-700 text-sm font-light">
+      @for (item of data; track item) {
+        <tr class="border-b border-gray-200 hover:bg-gray-100">
+          @for (col of columns; track col.key) {
+            <td class="py-3 px-6 text-left">{{ item[col.key] }}</td>
+          }
+          <td class="py-3 px-6 text-center">
+            <div class="flex justify-center gap-2">
+              <button (click)="edit.emit(item)" class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 flex items-center justify-center">
+                <lucide-angular [img]="FilePenLine" class="w-4 h-4"></lucide-angular>
+              </button>
+              <button (click)="delete.emit(item)" class="w-8 h-8 rounded-full bg-red-100 text-red-600 hover:bg-red-200 flex items-center justify-center">
+                <lucide-angular [img]="Trash" class="w-4 h-4"></lucide-angular>
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

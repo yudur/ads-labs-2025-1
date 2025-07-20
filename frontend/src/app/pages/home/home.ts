@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { 
   LucideAngularModule,
@@ -10,7 +9,7 @@ import {
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, LucideAngularModule],
+  imports: [LucideAngularModule],
   templateUrl: './home.html',
 })
 export class Home {
