@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="bg-white p-6 rounded-lg shadow-md border border-indigo-200 mb-6">
+    <h2 class="text-2xl font-semibold text-indigo-700 mb-4">{{ customer.id === "" ? 'Novo Cliente' : 'Editar Cliente' }}</h2>
+
+    <div class="mb-4">
+    <label class="block text-indigo-700 font-bold mb-2">Nome</label>
+    <input formControlName="name" class="w-full border rounded-lg px-3 py-2" />
+    <p *ngIf="form.controls['name'].invalid && form.controls['name'].touched" class="text-red-500 text-sm">Mínimo 2 caracteres</p>
+    </div>
+
+    <div class="mb-4">
+    <label class="block text-indigo-700 font-bold mb-2">CPF</label>
+    <input formControlName="cpf" class="w-full border rounded-lg px-3 py-2" />
+    <p *ngIf="form.controls['cpf'].invalid && form.controls['cpf'].touched" class="text-red-500 text-sm">CPF deve ter 11 dígitos numéricos</p>
+    </div>
+
+    <div class="flex justify-end gap-2">
+    <button type="button" (click)="cancel.emit()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</button>
+    <button type="submit" [disabled]="form.invalid" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg">Salvar</button>
+    </div>
+</form>

@@ -14,11 +14,6 @@ import {
   templateUrl: './home.html',
 })
 export class Home {
-  readonly Users = Users;
-  readonly Utensils = Utensils;
-  readonly ClipboardList = ClipboardList;
-  readonly ChartNoAxesColumnIncreasing = ChartNoAxesColumnIncreasing;
-
   cards = [
     {
       title: 'Clientes',
