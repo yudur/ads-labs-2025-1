@@ -13,6 +13,11 @@ const dishController = new DishController();
 const orderController = new OrderController();
 const reportController = new ReportController();
 
+// Health Check
+router.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'Backend is running' });
+});
+
 // Customers
 router.post('/customers', customerController.create);
 router.get('/customers', customerController.getAll);
