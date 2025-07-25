@@ -4,7 +4,12 @@
 
         <app-generic-table
             [data]="topDishes"
-            [columns]="dishColumns"
+            [columns]="[
+                { key: 'name', label: 'Prato' },
+                { key: 'order_count', label: 'Pedidos' }
+            ]"
+            [showEdit]="false"
+            [showDelete]="false"
         ></app-generic-table>
     </div>
 
@@ -13,7 +18,13 @@
 
         <app-generic-table
             [data]="topClientsByOrders"
-            [columns]="clientOrderColumns"
+            [columns]="[
+                { key: 'name', label: 'Cliente' },
+                { key: 'order_count', label: 'Pedidos' },
+            ]
+            "
+            [showEdit]="false"
+            [showDelete]="false"
         ></app-generic-table>
     </div>
 
@@ -22,6 +33,12 @@
 
         <app-generic-table
             [data]="topClientsBySpending"
-            [columns]="clientSpendingColumns"
+            [columns]="[
+                { key: 'name', label: 'Cliente' },
+                { key: 'total_spent', label: 'Total (R$)' },
+            ]"
+            [showEdit]="false"
+            [showDelete]="false"
         ></app-generic-table>
     </div>
+</div>

@@ -1,48 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GenericTable } from '../../components/generic-table/generic-table';
+import { ReportService } from '../../core/services/api/report.service';
+import { TopCustomerByOrderDTO, TopCustomerByValueDTO, TopDishDTO } from '../../core/DTOs/report.dto';
 
 @Component({
   selector: 'app-reports',
   imports: [GenericTable],
   templateUrl: './reports.html'
 })
-export class Reports {
-  topDishes = [
-    { name: 'Pizza Margherita', orders: 120 },
-    { name: 'Lasanha', orders: 110 },
-    { name: 'Hambúrguer Artesanal', orders: 95 },
-    { name: 'Sushi Combo', orders: 90 },
-    { name: 'Salada Caesar', orders: 85 },
-  ];
+export class Reports implements OnInit {
+  topDishes: TopDishDTO[] = [];
+  topClientsByOrders: TopCustomerByOrderDTO[] = [];
+  topClientsBySpending: TopCustomerByValueDTO[] = [];
 
-  dishColumns = [
-    { key: 'name', label: 'Prato' },
-    { key: 'orders', label: 'Quantidade de Pedidos' },
-  ];
+  constructor(private reportService: ReportService) {}
 
-  topClientsByOrders = [
-    { name: 'João Silva', orders: 35 },
-    { name: 'Maria Souza', orders: 32 },
-    { name: 'Carlos Oliveira', orders: 29 },
-    { name: 'Ana Costa', orders: 27 },
-    { name: 'Pedro Santos', orders: 25 },
-  ];
+  ngOnInit() {
+    this.loadReports();
+  }
 
-  clientOrderColumns = [
-    { key: 'name', label: 'Cliente' },
-    { key: 'orders', label: 'Pedidos' },
-  ];
+  private loadReports() {
+    this.reportService.getDishesByOrderCount().subscribe((data: any) => {
+      this.topDishes = data as TopDishDTO[];
+    });
 
-  topClientsBySpending = [
-    { name: 'Maria Souza', total: 2800 },
-    { name: 'João Silva', total: 2600 },
-    { name: 'Ana Costa', total: 2400 },
-    { name: 'Carlos Oliveira', total: 2300 },
-    { name: 'Pedro Santos', total: 2200 },
-  ];
+    this.reportService.getTopCustomersByOrderCount().subscribe((data: any) => {
+      this.topClientsByOrders = data as TopCustomerByOrderDTO[];
+    });
 
-  clientSpendingColumns = [
-    { key: 'name', label: 'Cliente' },
-    { key: 'total', label: 'Total Gasto (R$)' },
-  ];
+    this.reportService.getTopCustomersBySpending().subscribe((data: any) => {
+      this.topClientsBySpending = data as TopCustomerByValueDTO[];
+    });
+  }
 }

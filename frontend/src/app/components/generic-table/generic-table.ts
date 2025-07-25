@@ -11,6 +11,8 @@ import { LucideAngularModule, FilePenLine, Trash } from 'lucide-angular';
 export class GenericTable {
   @Input() data: any[] = [];
   @Input() columns: { key: keyof any; label: string }[] = [];
+  @Input() showEdit = true;
+  @Input() showDelete = true;
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
 

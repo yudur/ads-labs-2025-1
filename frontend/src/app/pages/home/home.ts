@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { 
   LucideAngularModule,
   Users,
@@ -13,26 +14,36 @@ import {
   templateUrl: './home.html',
 })
 export class Home {
+  constructor(private router: Router) {}
+
   cards = [
     {
       title: 'Clientes',
       description: 'Gerencie informações de clientes.',
-      icon: Users
+      icon: Users,
+      link: '/customers'
     },
     {
       title: 'Pratos',
       description: 'Gerencie o cardápio do restaurante.',
-      icon: Utensils
+      icon: Utensils,
+      link: '/dishes'
     },
     {
       title: 'Pedidos',
       description: 'Acompanhe e gerencie os pedidos.',
-      icon: ClipboardList
+      icon: ClipboardList,
+      link: '/order'
     },
     {
       title: 'Relatórios',
       description: 'Visualize insights e estatísticas.',
-      icon: ChartNoAxesColumnIncreasing
+      icon: ChartNoAxesColumnIncreasing,
+      link: '/reports'
     },
   ]
+
+  goTo(route: string) {
+    this.router.navigate([route]);
+  }
 }

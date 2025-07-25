@@ -14,3 +14,10 @@ export interface OrderDTO {
 
   total?: number;
 }
+
+
+export interface OrderCreateDTO {
+  customerId: string;
+  dishId: string;
+  quantity: number;
+}

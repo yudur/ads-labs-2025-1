@@ -4,6 +4,7 @@ import { GenericForm } from '../../components/generic-form/generic-form';
 import { GenericTable } from '../../components/generic-table/generic-table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DishDTO } from '../../core/DTOs/dish.dto';
+import { DishService } from '../../core/services/api/dish.service';
 
 @Component({
   selector: 'app-dishes',
@@ -17,31 +18,33 @@ export class Dishes {
 
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private dishService: DishService
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadDishes();
   }
 
   loadDishes() {
-    this.dishes.set([
-      {
-        id: "7b7cb5cb-93a0-4837-967b-58b6ad0bbf26",
-        name: "Pizza Margherita",
-        price: "45.90",
-      },
-      {
-        id: "a98fc8b8-0a06-4d72-b942-0971b30f426a",
-        name: "Spaghetti Carbonara",
-        price: "32.50",
-	    },
-    ])
+    this.dishService.getDishes().subscribe((data: any) => {
+      this.dishes.set(data as DishDTO[]);
+    });
   }
 
   buildForm(dish?: DishDTO) {
     this.form = this.fb.group({
       name: [dish?.name || '', [Validators.required, Validators.minLength(2)]],
-      price: [dish?.price || '', [Validators.required, Validators.min(0.1), Validators.max(4000)]]
+      price: [
+        dish?.price || '',
+        [
+          Validators.required,
+          Validators.min(0.1),
+          Validators.max(4000),
+          Validators.pattern(/^\d+(\.\d{1,2})?$/)
+        ]
+      ]
     });
 
     this.selectedDish.set(dish ?? null);
@@ -49,7 +52,9 @@ export class Dishes {
   }
 
   onDelete(dish: DishDTO) {
-    console.log('apagar')
+    this.dishService.deleteDish(dish.id).subscribe(() => {
+      this.loadDishes();
+    });
   }
 
   cancelEdit() {
@@ -61,14 +66,21 @@ export class Dishes {
   onSubmit() {
     if (this.form.invalid) return;
 
-    const dto = this.form.value;
+    const dto = {
+      ...this.form.value,
+      price: Number(this.form.value.price)
+    };
 
     if (!this.selectedDish()?.id) {
-      console.log('criado')
-      this.cancelEdit();
-      this.loadDishes();
+      this.dishService.createDish(dto).subscribe(() => {
+        this.cancelEdit();
+        this.loadDishes();
+      });
     } else {
-      console.log('atualizado')
+      this.dishService.updateDish(this.selectedDish()!.id, dto).subscribe(() => {
+        this.cancelEdit();
+        this.loadDishes();
+      });
     }
   }
 }

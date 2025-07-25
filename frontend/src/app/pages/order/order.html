@@ -14,17 +14,19 @@
                 { key: 'total', label: 'Total (R$)' },
                 { key: 'createdAt', label: 'Data do Pedido' }
             ]"
+            [showEdit]="true"
+            [showDelete]="true"
             (edit)="buildForm($event)"
             (delete)="onDelete($event)"
         />
     } @else {
         <app-generic-form
             [form]="form"
-            [title]="selectedOrder()?.id ? 'Editar Prato' : 'Novo Prato'"
+            [title]="selectedOrder()?.id ? 'Editar Pedido' : 'Novo Pedido'"
             [fields]="selectedOrder()?.id ? [
-                    { name: 'quantity', label: 'Quantidade', type: 'number' },
+                    { name: 'quantity', label: 'Quantidade', type: 'number' }
                 ] : [
-                    { name: 'customerId', label: 'Cliente ID' },
+                    { name: 'customerId', label: 'Cliente', type: 'select', options: customerOptions() },
                     { name: 'dishId', label: 'Prato', type: 'select', options: dishOptions() },
                     { name: 'quantity', label: 'Quantidade', type: 'number' }
                 ]"

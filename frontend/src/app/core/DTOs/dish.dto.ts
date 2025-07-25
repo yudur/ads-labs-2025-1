@@ -3,3 +3,8 @@ export interface DishDTO {
     name: string;
     price: string;
 }
+
+export interface createDishDTO {
+    name: string;
+    price: string;
+}

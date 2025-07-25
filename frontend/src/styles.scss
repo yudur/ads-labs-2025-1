@@ -5,8 +5,17 @@
     .primary-title {
         @apply text-3xl font-bold text-indigo-800 mb-6;
     }
+
+    .overflow-x-auto {
+        @apply overflow-x-auto block;
+    }
 }
 
 body {
     font-family: 'Inter', sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
 }

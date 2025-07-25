@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { 
   LucideAngularModule,
   Home,
@@ -17,7 +18,16 @@ import {
   templateUrl: './header.html'
 })
 export class Header {
-  constructor(private router: Router) {}
+  currentRoute = '';
+
+  constructor(private router: Router) {
+    // Escuta mudanças de rota
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.currentRoute = event.url;
+      });
+  }
 
   readonly Home = Home;
   readonly Users = Users;
@@ -33,8 +43,11 @@ export class Header {
     {text: 'Relatórios', icon: ChartNoAxesColumnIncreasing, link: '/reports'},
   ]
 
-
   navigate(path: string) {
     this.router.navigate([path])
+  }
+
+  isActive(link: string): boolean {
+    return this.currentRoute === link || (link !== '/' && this.currentRoute.startsWith(link));
   }
 }

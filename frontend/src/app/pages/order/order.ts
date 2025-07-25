@@ -4,8 +4,11 @@ import { GenericForm } from '../../components/generic-form/generic-form';
 import { GenericTable } from '../../components/generic-table/generic-table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderDTO } from '../../core/DTOs/order.dto';
+import { OrderService } from '../../core/services/api/order.service';
+import { DishService } from '../../core/services/api/dish.service';
+import { CustomerService } from '../../core/services/api/customer.service';
 
-interface dishOption {
+interface InputOption {
   label: string;
   value: string;
 }
@@ -19,47 +22,59 @@ export class Order {
   orders = signal<OrderDTO[]>([]);
   editing = signal(false);
   selectedOrder = signal<OrderDTO | null>(null);
-  dishOptions = signal<dishOption[]>([]);
+  dishOptions = signal<InputOption[]>([]);
+  customerOptions = signal<InputOption[]>([]);
 
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private orderService: OrderService,
+    private dishService: DishService,
+    private customerService: CustomerService
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadOrders();
     this.loadDishes();
+    this.loadCustomers();
   }
 
   loadDishes() {
-    this.dishOptions.set([
-      { label: 'Sushi Variado', value: 'bc89b0f6-e4b9-462a-ae7e-758ffe68fd67' },
-      { label: 'Filé Mignon', value: '152be70c-9988-4293-ac2d-5deb2759eca5' },
-    ])
+    this.dishService.getDishes().subscribe((dishes: any) => {
+      const options = dishes.map((dish: any) => ({
+        label: dish.name,
+        value: dish.id
+      })) 
+      this.dishOptions.set(options);
+    });
+  }
+
+  loadCustomers() {
+    this.customerService.getAll().subscribe((customers: any) => {
+      const options = customers.map((customer: any) => ({
+        label: customer.name,
+        value: customer.id
+      }));
+      this.customerOptions.set(options);
+    });
   }
 
   loadOrders() {
-    const mock: OrderDTO[] = [
-      {
-        id: 'be074765-c67d-4eab-9a98-515291cb18a0',
-        quantity: 1,
-        createdAt: '2025-07-02T01:23:52.993Z',
-        customer: {
-          name: 'João Silva',
-        },
-        dish: {
-          name: 'Sushi Variado',
-          price: '65.00',
-        },
-      },
-    ];
-
-    const withTotal = mock.map((order) => ({
-      ...order,
-      total: parseFloat(order.dish.price) * order.quantity,
-    }));
-
-    this.orders.set(withTotal);
+    this.orderService.getOrders().subscribe((data: any) => {
+      const withTotal = data.map((order: any) => {
+        const price = order.dish?.price ? parseFloat(order.dish.price) : 0;
+        const total = price * order.quantity;
+        
+        return {
+          ...order,
+          total: parseFloat(total.toFixed(2))
+        };
+      });
+      this.orders.set(withTotal);
+    });
   }
+
 
   buildForm(order?: OrderDTO) {
     const isEdit = !!order;
@@ -69,8 +84,8 @@ export class Order {
       ...(isEdit
         ? {}
         : {
-          customerId: ['', Validators.required, Validators.minLength(3)],
-          dishId: ['', Validators.required, Validators.minLength(3)],
+          customerId: ['', [Validators.required]],
+          dishId: ['', [Validators.required]],
         }
       )
     });
@@ -80,7 +95,9 @@ export class Order {
   }
 
   onDelete(order: OrderDTO) {
-    console.log('Remover pedido:', order.id);
+    this.orderService.deleteOrder(order.id).subscribe(() => {
+      this.loadOrders();
+    });
   }
 
   cancelEdit() {
@@ -93,10 +110,21 @@ export class Order {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
 
-    const dto = this.form.value;
-    console.log(this.selectedOrder() ? 'Atualizar pedido' : 'Criar pedido', dto);
+    const dto = {
+      ...this.form.value,
+      quantity: Number(this.form.value.quantity)
+    };
 
-    this.cancelEdit();
-    this.loadOrders();
+    if (!this.selectedOrder()?.id) {
+      this.orderService.createOrder(dto).subscribe(() => {
+        this.loadOrders();
+        this.cancelEdit();
+      });
+    } else {
+      this.orderService.updateOrder(this.selectedOrder()!.id, dto).subscribe(() => {
+        this.loadOrders();
+        this.cancelEdit();
+      });
+    }
   }
 }
