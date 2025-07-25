@@ -30,7 +30,7 @@ export class Header {
     {text: 'Clientes', icon: Users, link: '/customers'},
     {text: 'Pratos', icon: Utensils, link: '/dishes'},
     {text: 'Pedidos', icon: ClipboardList, link: '/order'},
-    {text: 'Relatórios', icon: ChartNoAxesColumnIncreasing, link: '/report'},
+    {text: 'Relatórios', icon: ChartNoAxesColumnIncreasing, link: '/reports'},
   ]
 
 

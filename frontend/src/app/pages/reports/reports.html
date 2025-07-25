@@ -1,0 +1,27 @@
+<div class="p-6 flex gap-6 flex-col">
+    <div>
+        <h1 class="primary-title">Pratos Mais Pedidos</h1>
+
+        <app-generic-table
+            [data]="topDishes"
+            [columns]="dishColumns"
+        ></app-generic-table>
+    </div>
+
+    <div>
+        <h1 class="primary-title">Top 5 Clientes por Pedidos</h1>
+
+        <app-generic-table
+            [data]="topClientsByOrders"
+            [columns]="clientOrderColumns"
+        ></app-generic-table>
+    </div>
+
+    <div>
+        <h1 class="primary-title">Top 5 Clientes por Gastos</h1>
+
+        <app-generic-table
+            [data]="topClientsBySpending"
+            [columns]="clientSpendingColumns"
+        ></app-generic-table>
+    </div>

@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { CustomerDTO } from '../../core/DTOs/customer.dto';
-import { CustomerService } from '../../core/services/api/customer.service';
 import { AddButton } from '../../components/buttons/add-button/add-button';
 
 import { GenericForm } from '../../components/generic-form/generic-form';
@@ -21,31 +20,15 @@ export class Customers {
   editing = signal(false);
   selectedCustomer = signal<CustomerDTO | null>(null);
 
-
   form!: FormGroup;
 
-  constructor(
-    // private customerService: CustomerService,
-    private fb: FormBuilder
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.loadCustomers();
-    this.buildForm();
-  }
-
-  buildForm(customer?: CustomerDTO) {
-    this.form = this.fb.group({
-      name: [customer?.name || '', [Validators.required, Validators.minLength(2)]],
-      cpf: [customer?.cpf || '', [Validators.required, Validators.pattern(/^\d{11}$/)]]
-    });
-
-    this.selectedCustomer.set(customer ?? null);
-    this.editing.set(true);
   }
 
   loadCustomers() {
-    // this.customerService.findAll().subscribe(res => this.customers.set(res));
     this.customers.set([
       {
         "id": "8d4bd2bf-df58-4d73-a6cb-b119bfaad336",
@@ -65,12 +48,17 @@ export class Customers {
     ])
   }
 
-  onEdit(customer: CustomerDTO) {
-    this.buildForm(customer);
+  buildForm(customer?: CustomerDTO) {
+    this.form = this.fb.group({
+      name: [customer?.name || '', [Validators.required, Validators.minLength(2)]],
+      cpf: [customer?.cpf || '', [Validators.required, Validators.pattern(/^\d{11}$/)]]
+    });
+
+    this.selectedCustomer.set(customer ?? null);
+    this.editing.set(true);
   }
 
   onDelete(customer: CustomerDTO) {
-    // this.customerService.delete(customer.id).subscribe(() => this.loadCustomers());
     console.log('apagar')
   }
 
@@ -86,19 +74,10 @@ export class Customers {
     const dto = this.form.value;
 
     if (!this.selectedCustomer()?.id) {
-      // this.customerService.create(dto).subscribe(() => {
-        // this.cancelEdit();
-        // this.loadCustomers();
-        
-      // })
       console.log('criado')
       this.cancelEdit();
       this.loadCustomers();
     } else {
-      // this.customerService.update(this.selectedCustomer()!.id, dto).subscribe(() => {
-        // this.cancelEdit();
-        // this.loadCustomers();
-      // });
       console.log('atualizado')
     }
   }

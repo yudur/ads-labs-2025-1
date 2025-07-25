@@ -1,15 +1,15 @@
 <div class="p-6">
-    <h1 class="primary-title">Gerenciamento de Clientes</h1>
+    <h1 class="primary-title">Gerenciamento de Pratos</h1>
 
     @if (!editing()) {
-        <app-add-button (click)="buildForm()" textButton="Adicionar Novo Cliente"></app-add-button>
+        <app-add-button (click)="buildForm()" textButton="Adicionar Novo Prato"></app-add-button>
 
         <app-generic-table
-            [data]="customers()"
+            [data]="dishes()"
             [columns]="[
                 { key: 'id', label: 'ID' },
                 { key: 'name', label: 'Nome' },
-                { key: 'cpf', label: 'CPF' }
+                { key: 'price', label: 'Preço' }
             ]"
             (edit)="buildForm($event)"
             (delete)="onDelete($event)"
@@ -17,10 +17,10 @@
     } @else {
         <app-generic-form
             [form]="form"
-            [title]="selectedCustomer()?.id ? 'Editar Cliente' : 'Novo Cliente'"
+            [title]="selectedDish()?.id ? 'Editar Prato' : 'Novo Prato'"
             [fields]="[
                 { name: 'name', label: 'Nome' },
-                { name: 'cpf', label: 'CPF' }
+                { name: 'price', label: 'Preço', type: 'number' }
             ]"
             (cancel)="cancelEdit()"
             (save)="onSubmit()"

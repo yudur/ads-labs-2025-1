@@ -1,0 +1,35 @@
+<div class="p-6">
+    <h1 class="primary-title">Gerenciamento de Pedidos</h1>
+
+    @if (!editing()) {
+        <app-add-button (click)="buildForm()" textButton="Adicionar Novo Pedido"></app-add-button>
+
+        <app-generic-table
+            [data]="orders()"
+            [columns]="[
+                { key: 'id', label: 'ID' },
+                { key: 'customer.name', label: 'Cliente' },
+                { key: 'dish.name', label: 'Prato' },
+                { key: 'quantity', label: 'Qtd' },
+                { key: 'total', label: 'Total (R$)' },
+                { key: 'createdAt', label: 'Data do Pedido' }
+            ]"
+            (edit)="buildForm($event)"
+            (delete)="onDelete($event)"
+        />
+    } @else {
+        <app-generic-form
+            [form]="form"
+            [title]="selectedOrder()?.id ? 'Editar Prato' : 'Novo Prato'"
+            [fields]="selectedOrder()?.id ? [
+                    { name: 'quantity', label: 'Quantidade', type: 'number' },
+                ] : [
+                    { name: 'customerId', label: 'Cliente ID' },
+                    { name: 'dishId', label: 'Prato', type: 'select', options: dishOptions() },
+                    { name: 'quantity', label: 'Quantidade', type: 'number' }
+                ]"
+            (cancel)="cancelEdit()"
+            (save)="onSubmit()"
+        />
+    }
+</div>
